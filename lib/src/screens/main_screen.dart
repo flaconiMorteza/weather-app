@@ -58,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
                 color: Theme.of(context).hintColor,
               ),
             )
-          : WeatherWidget(),
+          : const WeatherWidget(),
     );
   }
 }
