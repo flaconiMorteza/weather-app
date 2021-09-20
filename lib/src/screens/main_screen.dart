@@ -52,10 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Theme.of(context).colorScheme.background,
-                color: Theme.of(context).hintColor,
+          ? Container(
+              color: Theme.of(context).backgroundColor,
+              child: const Center(
+                child: CircularProgressIndicator(),
               ),
             )
           : const WeatherWidget(),

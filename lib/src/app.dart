@@ -19,6 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /* final ThemeData _theme = Theme.of(context);
+    _theme.copyWith(
+      backgroundColor: const Color.fromARGB(250, 100, 150, 200),
+    );
+    _theme.colorScheme.copyWith(
+      secondary: const Color.fromRGBO(50, 10, 10, 100),
+    );*/
+
     return AnimatedBuilder(
       animation: settingsController,
       builder: (BuildContext context, Widget? child) {
@@ -35,7 +43,7 @@ class MyApp extends StatelessWidget {
           ],
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-          theme: ThemeData(),
+          theme: ThemeData(), // _theme,
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
