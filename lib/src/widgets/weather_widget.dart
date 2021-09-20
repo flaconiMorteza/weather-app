@@ -13,16 +13,12 @@ class WeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context);
     //final weatherData = weatherService.weatherData;
-    final deviceSize = MediaQuery.of(context).size;
+
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.primary,
-            const Color.fromRGBO(50, 50, 180, 100)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/BK_Image.jpg"),
+          fit: BoxFit.fill,
         ),
       ),
       child: RefreshIndicator(
@@ -30,12 +26,43 @@ class WeatherWidget extends StatelessWidget {
         onRefresh: () async {
           return await weatherService.fetchAndSetWeather();
         },
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GeneralInfoWidget(),
-            HourlyInfoWidget(),
-            DailyInfoWidget(),
+            SearchBox(),
+            const SizedBox(
+              height: 5,
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  GeneralInfoWidget(),
+                  HourlyInfoWidget(),
+                  DailyInfoWidget(),
+                ],
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Container SearchBox() {
+    return Container(
+      margin: const EdgeInsets.only(left: 40, right: 40),
+      child: const TextField(
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 25,
+        ),
+        decoration: InputDecoration(
+          hintText: "Type city name.",
+          hintStyle: TextStyle(color: Colors.white, fontSize: 18),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
         ),
       ),
     );

@@ -17,6 +17,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   var _isInit = true;
   var _isLoading = false;
+  var _isError = false;
 
   @override
   void didChangeDependencies() {
@@ -28,6 +29,8 @@ class _MainScreenState extends State<MainScreen> {
         setState(() {
           _isLoading = false;
         });
+      }).catchError((Error) {
+        _isError = true;
       });
     }
     _isInit = false;

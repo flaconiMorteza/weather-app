@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       animation: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
           localizationsDelegates: const [
             AppLocalizations.delegate,

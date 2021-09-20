@@ -17,6 +17,7 @@ dependencies:
   provider: ^6.0.0
   intl: ^0.17.0
   http:
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +34,9 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/images/png64/
+
+  fonts:
+    - family: PinyonScript
+      fonts:
+        - asset: assets/fonts/PinyonScript-Regular.ttf
