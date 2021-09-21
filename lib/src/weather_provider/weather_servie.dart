@@ -40,7 +40,7 @@ class WeatherService with ChangeNotifier {
         convert2Farenhite();
       }
     } catch (ex) {
-      rethrow;
+      throw Exception('Server response problem!');
     } finally {
       notifyListeners();
     }
@@ -100,7 +100,7 @@ class WeatherService with ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
-      rethrow;
+      throw Exception(error.toString());
     }
   }
 

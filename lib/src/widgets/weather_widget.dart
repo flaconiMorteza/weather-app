@@ -33,7 +33,17 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         onRefresh: () async {
           /*City city = City(title: 'London', woeid: 44418);
           weatherService.setCity(city);*/
-          return await weatherService.fetchAndSetWeather();
+          try {
+            return await weatherService.fetchAndSetWeather();
+          } catch (ex) {
+            final snackBar = SnackBar(
+                content: Center(
+                    child: Text(
+              'Server connection problem. Please check your data!',
+              textAlign: TextAlign.center,
+            )));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

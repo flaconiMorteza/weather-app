@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../weather_provider/weather_servie.dart';
 import '../widgets/weather_widget.dart';
-import '../screens/wait_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -26,21 +25,28 @@ class _MainScreenState extends State<MainScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       setState(() {
-        _isLoading = true;
-        Provider.of<WeatherService>(context).fetchAndSetWeather().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
-        }).catchError((Error) {
-          setState(() {
-            _isLoading = false;
-            _isError = true;
-          });
-        });
+        tryFetchWeatherData();
       });
     }
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  void tryFetchWeatherData() {
+    _isLoading = true;
+    Provider.of<WeatherService>(context, listen: false)
+        .fetchAndSetWeather()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+        _isError = false;
+      });
+    }).catchError((Error) {
+      setState(() {
+        _isLoading = false;
+        _isError = true;
+      });
+    });
   }
 
   @override
@@ -75,14 +81,24 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: _isLoading
           ? Container(
-              color: Theme.of(context).backgroundColor,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/BK_Image.jpg"),
+                  fit: BoxFit.fill,
+                ),
+              ),
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             )
           : (_isError
               ? Container(
-                  color: Theme.of(context).errorColor,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/BK_Image.jpg"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,21 +111,7 @@ class _MainScreenState extends State<MainScreen> {
                         ElevatedButton(
                             onPressed: () async {
                               setState(() {
-                                _isLoading = true;
-                                Provider.of<WeatherService>(context,
-                                        listen: false)
-                                    .fetchAndSetWeather()
-                                    .then((_) {
-                                  setState(() {
-                                    _isLoading = false;
-                                    _isError = false;
-                                  });
-                                }).catchError((Error) {
-                                  setState(() {
-                                    _isLoading = false;
-                                    _isError = true;
-                                  });
-                                });
+                                tryFetchWeatherData();
                               });
                             },
                             child: Text("Try again", style: _textStyle)),
