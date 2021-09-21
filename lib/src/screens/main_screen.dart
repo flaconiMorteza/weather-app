@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../settings/settings_view.dart';
 import '../weather_provider/weather_servie.dart';
 import '../widgets/weather_widget.dart';
+import '../screens/wait_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -25,13 +27,16 @@ class _MainScreenState extends State<MainScreen> {
     if (_isInit) {
       setState(() {
         _isLoading = true;
-      });
-      Provider.of<WeatherService>(context).fetchAndSetWeather().then((_) {
-        setState(() {
-          _isLoading = false;
+        Provider.of<WeatherService>(context).fetchAndSetWeather().then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        }).catchError((Error) {
+          setState(() {
+            _isLoading = false;
+            _isError = true;
+          });
         });
-      }).catchError((Error) {
-        _isError = true;
       });
     }
     _isInit = false;
@@ -41,6 +46,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    const _textStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontFamily: 'WDF',
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -66,11 +76,51 @@ class _MainScreenState extends State<MainScreen> {
       body: _isLoading
           ? Container(
               color: Theme.of(context).backgroundColor,
-              child: const Center(
+              child: Center(
                 child: CircularProgressIndicator(),
               ),
             )
-          : const WeatherWidget(),
+          : (_isError
+              ? Container(
+                  color: Theme.of(context).errorColor,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const CircularProgressIndicator(),
+                        Text(
+                          "Server connection problem",
+                          style: _textStyle,
+                        ),
+                        ElevatedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _isLoading = true;
+                                Provider.of<WeatherService>(context,
+                                        listen: false)
+                                    .fetchAndSetWeather()
+                                    .then((_) {
+                                  setState(() {
+                                    _isLoading = false;
+                                    _isError = false;
+                                  });
+                                }).catchError((Error) {
+                                  setState(() {
+                                    _isLoading = false;
+                                    _isError = true;
+                                  });
+                                });
+                              });
+                            },
+                            child: Text("Try again", style: _textStyle)),
+                        ElevatedButton(
+                            onPressed: () => exit(0),
+                            child: Text("Exit App", style: _textStyle)),
+                      ],
+                    ),
+                  ),
+                )
+              : WeatherWidget()),
     );
   }
 }

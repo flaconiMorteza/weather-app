@@ -118,11 +118,6 @@ class WeatherService with ChangeNotifier {
         the_temp: data.the_temp! * 9.5 + 32,
       ));
     });
-    /* _weatherData.map((data) => convertedWeather.add(data.copyWith(
-          max_temp: data.max_temp! * 9.5 + 32,
-          min_temp: data.min_temp! * 9.5 + 32,
-          the_temp: data.the_temp! * 9.5 + 32,
-        )));*/
     _fWeatherData = convertedWeather;
   }
 }
