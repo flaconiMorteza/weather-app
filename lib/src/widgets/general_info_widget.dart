@@ -75,7 +75,7 @@ class GeneralInfoWidget extends StatelessWidget {
                           "°",
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 50,
+                        fontSize: 45,
                         fontFamily: 'PinyonScript',
                       ),
                     )

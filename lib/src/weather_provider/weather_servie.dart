@@ -9,8 +9,10 @@ import '../models/weather_data.dart';
 
 class WeatherService with ChangeNotifier {
   List<WeatherData> _weatherData = [];
+  List<WeatherData> _fWeatherData = [];
   List<City> _cities = [];
   int _selectedIndex = 0;
+  bool _celsius = true;
   City _city = City(title: "Berlin", woeid: 638242);
 
   Future<void> fetchAndSetWeather() async {
@@ -35,6 +37,7 @@ class WeatherService with ChangeNotifier {
           loadedWeather.add(WeatherData.fromMap(prodData));
         });
         _weatherData = loadedWeather;
+        convert2Farenhite();
       }
     } catch (ex) {
       rethrow;
@@ -58,7 +61,11 @@ class WeatherService with ChangeNotifier {
   }
 
   List<WeatherData> get weathers {
-    return [..._weatherData];
+    if (_celsius) {
+      return [..._weatherData];
+    } else {
+      return [..._fWeatherData];
+    }
   }
 
   List<City> get cities {
@@ -95,5 +102,27 @@ class WeatherService with ChangeNotifier {
     } catch (error) {
       rethrow;
     }
+  }
+
+  void setCelsius(bool celsius) {
+    _celsius = celsius;
+    notifyListeners();
+  }
+
+  convert2Farenhite() {
+    final List<WeatherData> convertedWeather = [];
+    _weatherData.forEach((data) {
+      convertedWeather.add(data.copyWith(
+        max_temp: data.max_temp! * 9.5 + 32,
+        min_temp: data.min_temp! * 9.5 + 32,
+        the_temp: data.the_temp! * 9.5 + 32,
+      ));
+    });
+    /* _weatherData.map((data) => convertedWeather.add(data.copyWith(
+          max_temp: data.max_temp! * 9.5 + 32,
+          min_temp: data.min_temp! * 9.5 + 32,
+          the_temp: data.the_temp! * 9.5 + 32,
+        )));*/
+    _fWeatherData = convertedWeather;
   }
 }

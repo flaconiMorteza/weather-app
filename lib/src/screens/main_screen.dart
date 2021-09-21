@@ -43,8 +43,15 @@ class _MainScreenState extends State<MainScreen> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Weather App')),
-        actions: [
+        title: const Center(
+            child: Text(
+          'flaconi Weather App',
+          style: TextStyle(
+            fontFamily: 'PinyonScript',
+            fontSize: 25,
+          ),
+        )),
+        /*actions: [
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -54,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
           ),
-        ],
+        ],*/
       ),
       body: _isLoading
           ? Container(
