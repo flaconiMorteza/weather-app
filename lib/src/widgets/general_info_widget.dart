@@ -1,6 +1,6 @@
+import 'package:esi_weather_app/src/helper/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../weather_provider/weather_servie.dart';
 
@@ -10,12 +10,16 @@ class GeneralInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context);
-    const textStyle = TextStyle(color: Colors.white, fontSize: 30);
+    const _textStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 30,
+      fontFamily: 'PinyonScript',
+    );
 
-    // final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.all(10),
-      height: 200,
+      height: deviceSize.height / 4,
       decoration: const BoxDecoration(
         color: Color.fromRGBO(100, 110, 100, 200),
       ),
@@ -27,58 +31,93 @@ class GeneralInfoWidget extends StatelessWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
-                    "Berlin",
-                    style: TextStyle(
+                    weatherService.city.title ?? "Null",
+                    style: const TextStyle(
                         color: Colors.white70,
-                        fontSize: 50,
+                        fontSize: 30,
                         fontFamily: 'PinyonScript'),
                   ),
-                  SizedBox(
-                    height: 10,
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(
-                    'Mon',
-                    style: TextStyle(
-                        fontFamily: 'Raleway',
+                    Helper.convertDate2Day(weatherService
+                        .weathers[weatherService.selectedIndex]
+                        .applicable_date),
+                    style: const TextStyle(
+                        fontFamily: 'PinyonScript',
                         color: Colors.white,
-                        fontSize: 35),
+                        fontSize: 30),
                   )
                 ],
               ),
               Container(
                 margin: const EdgeInsets.all(10),
-                height: 120,
-                width: 120,
-                decoration: const BoxDecoration(
+                height: deviceSize.height / 8,
+                width: deviceSize.height / 8,
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/png64/Clear.png"),
+                    image: AssetImage(Helper.GetPng(weatherService
+                        .weathers[weatherService.selectedIndex]
+                        .weather_state_name)),
                     fit: BoxFit.fill,
                   ),
                 ),
               ),
-              Text(
-                "20°",
-                style: TextStyle(color: Colors.white, fontSize: 65),
-              ),
+              weatherService.selectedIndex == 0
+                  ? Text(
+                      weatherService
+                              .weathers[weatherService.selectedIndex].the_temp!
+                              .toInt()
+                              .toString() +
+                          "°",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontFamily: 'PinyonScript',
+                      ),
+                    )
+                  : Container(),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(Icons.upload_outlined),
-              Text(
-                "28°",
-                style: textStyle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.arrow_upward_sharp,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    weatherService
+                            .weathers[weatherService.selectedIndex].max_temp!
+                            .toInt()
+                            .toString() +
+                        "°",
+                    style: _textStyle,
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 50,
-              ),
-              Icon(Icons.arrow_downward_sharp),
-              Text(
-                "15°",
-                style: textStyle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.arrow_downward,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    weatherService
+                            .weathers[weatherService.selectedIndex].min_temp!
+                            .toInt()
+                            .toString() +
+                        "°",
+                    style: _textStyle,
+                  ),
+                ],
               ),
             ],
           ),

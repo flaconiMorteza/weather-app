@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,16 +10,20 @@ import '../models/weather_data.dart';
 class WeatherService with ChangeNotifier {
   List<WeatherData> _weatherData = [];
   List<City> _cities = [];
-  int woeid = 638242;
+  int _selectedIndex = 0;
+  City _city = City(title: "Berlin", woeid: 638242);
 
-  Future<void> fetchAndSetWeather([String cityName = "Berlin"]) async {
+  Future<void> fetchAndSetWeather() async {
     try {
+      int woeid = _city.woeid ?? 638242;
       String url = 'https://www.metaweather.com/api/location/$woeid/';
       Uri uri = Uri.parse(url);
-      final response = await http.get(uri, headers: {
+      final response = await http.get(
+          uri /*, headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
-      });
+      }*/
+          );
 
       if (response.statusCode != 200) {
       } else {
@@ -36,6 +41,20 @@ class WeatherService with ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> setCity(City city) async {
+    _city = city;
+    await fetchAndSetWeather();
+  }
+
+  City get city => _city;
+
+  int get selectedIndex => _selectedIndex;
+
+  setSelectedIndex(int index) {
+    _selectedIndex = index;
+    notifyListeners();
   }
 
   List<WeatherData> get weathers {

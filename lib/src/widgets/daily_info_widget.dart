@@ -10,34 +10,84 @@ class DailyInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context);
-    // final deviceSize = MediaQuery.of(context).size;
-    const _textStyle = TextStyle(color: Colors.white, fontSize: 20);
+    final deviceSize = MediaQuery.of(context).size;
+    const _textStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontFamily: 'PinyonScript',
+    );
     return Container(
       margin: const EdgeInsets.all(10),
-      height: 200,
+      height: deviceSize.height / 3.5,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: weatherService.weathers.length,
         itemBuilder: (context, index) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(100, 110, 100, 200),
-            ),
-            margin: EdgeInsets.all(5),
-            width: 100,
-            child: Column(
-              children: [
-                TextButton(
-                  onPressed: null,
-                  child: Text(
-                    Helper.convertDate2Day(
-                        weatherService.weathers[index].applicable_date),
-                    style: _textStyle,
+          return InkWell(
+            //onTap: weatherService.setSelectedIndex(index),
+            onTap: () async {
+              Provider.of<WeatherService>(context, listen: false)
+                  .setSelectedIndex(index);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(100, 110, 100, 200),
+              ),
+              margin: EdgeInsets.all(5),
+              width: deviceSize.height / 8,
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: null,
+                    child: Text(
+                      Helper.convertDate2Day(
+                          weatherService.weathers[index].applicable_date),
+                      style: _textStyle,
+                    ),
                   ),
-                ),
-                Image.asset(Helper.GetPng(
-                    weatherService.weathers[index].weather_state_name)),
-              ],
+                  Image.asset(Helper.GetPng(
+                      weatherService.weathers[index].weather_state_name)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.arrow_upward_sharp,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          Text(
+                            weatherService.weathers[index].max_temp!
+                                .toInt()
+                                .toString(),
+                            style: _textStyle,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.arrow_downward,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          Text(
+                            weatherService.weathers[index].min_temp!
+                                .toInt()
+                                .toString(),
+                            style: _textStyle,
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         },

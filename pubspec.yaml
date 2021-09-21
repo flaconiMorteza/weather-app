@@ -17,7 +17,6 @@ dependencies:
   provider: ^6.0.0
   intl: ^0.17.0
   http:
-  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +39,6 @@ flutter:
     - family: PinyonScript
       fonts:
         - asset: assets/fonts/PinyonScript-Regular.ttf
+    - family: WDF
+      fonts:
+        - asset: assets/fonts/WDF.ttf
