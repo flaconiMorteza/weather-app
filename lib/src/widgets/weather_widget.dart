@@ -6,6 +6,7 @@ import '../weather_provider/weather_servie.dart';
 import 'daily_info_widget.dart';
 import 'general_info_widget.dart';
 import 'details_info_widget.dart';
+import '../screens/search_city_screen.dart';
 
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({Key? key}) : super(key: key);
@@ -31,8 +32,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       child: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.onEdge,
         onRefresh: () async {
-          /*City city = City(title: 'London', woeid: 44418);
-          weatherService.setCity(city);*/
           try {
             return await weatherService.fetchAndSetWeather();
           } catch (ex) {
@@ -113,7 +112,16 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             color: Colors.white,
             size: 25,
           ),
-          onPressed: () {},
+          onPressed: () async {
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchCityScreen()),
+            );
+            if (result != null) {
+              Provider.of<WeatherService>(context, listen: false)
+                  .setCity(result);
+            }
+          },
           label: const Text(
             'Tap for new city',
             style: TextStyle(
@@ -122,22 +130,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               fontFamily: 'WDF',
             ),
           ),
-        )
-        /*const TextField(
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
-        decoration: InputDecoration(
-          hintText: "Click for new city",
-          hintStyle:
-              TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'WDF'),
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-        ),
-      ),*/
-        );
+        ));
   }
 }

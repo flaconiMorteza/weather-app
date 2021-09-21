@@ -67,17 +67,6 @@ class _MainScreenState extends State<MainScreen> {
             fontSize: 25,
           ),
         )),
-        /*actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
-              Navigator.restorablePushNamed(context, SettingsView.routeName);
-            },
-          ),
-        ],*/
       ),
       body: _isLoading
           ? Container(
@@ -87,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
                   fit: BoxFit.fill,
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             )
@@ -104,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const CircularProgressIndicator(),
-                        Text(
+                        const Text(
                           "Server connection problem",
                           style: _textStyle,
                         ),
@@ -114,10 +103,10 @@ class _MainScreenState extends State<MainScreen> {
                                 tryFetchWeatherData();
                               });
                             },
-                            child: Text("Try again", style: _textStyle)),
+                            child: const Text("Try again", style: _textStyle)),
                         ElevatedButton(
                             onPressed: () => exit(0),
-                            child: Text("Exit App", style: _textStyle)),
+                            child: const Text("Exit App", style: _textStyle)),
                       ],
                     ),
                   ),
