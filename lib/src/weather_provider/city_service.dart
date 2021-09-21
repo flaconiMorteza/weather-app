@@ -42,4 +42,9 @@ class CityService with ChangeNotifier {
   List<City> get cities {
     return [..._cities];
   }
+
+  void resetCities() {
+    _cities.clear();
+    notifyListeners();
+  }
 }

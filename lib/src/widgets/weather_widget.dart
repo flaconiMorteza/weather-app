@@ -17,6 +17,13 @@ class WeatherWidget extends StatefulWidget {
 
 class _WeatherWidgetState extends State<WeatherWidget> {
   bool celsius = true;
+  bool _isLoading = false;
+  @override
+  void initState() {
+    _isLoading = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context, listen: false);
@@ -35,7 +42,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           try {
             return await weatherService.fetchAndSetWeather();
           } catch (ex) {
-            final snackBar = SnackBar(
+            var snackBar = const SnackBar(
                 content: Center(
                     child: Text(
               'Server connection problem. Please check your data!',
@@ -44,61 +51,67 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        celsius = !celsius;
-                        Provider.of<WeatherService>(context, listen: false)
-                            .setCelsius(celsius);
-                      });
-                    },
-                    child: Text(
-                      '°F',
-                      style: TextStyle(
-                        color: celsius ? Colors.grey : Colors.yellowAccent,
-                        fontFamily: 'WDF',
-                        fontSize: 20,
-                      ),
-                    )),
-                searchBox(),
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        celsius = !celsius;
-                        Provider.of<WeatherService>(context, listen: false)
-                            .setCelsius(celsius);
-                      });
-                    },
-                    child: Text(
-                      '°C',
-                      style: TextStyle(
-                        color: celsius ? Colors.yellowAccent : Colors.grey,
-                        fontFamily: 'WDF',
-                        fontSize: 20,
-                      ),
-                    )),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Expanded(
-              child: ListView(
-                children: const [
-                  GeneralInfoWidget(),
-                  DetailsInfoWidget(),
-                  DailyInfoWidget(),
+        child: _isLoading
+            ? CircularProgressIndicator()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              celsius = !celsius;
+                              Provider.of<WeatherService>(context,
+                                      listen: false)
+                                  .setCelsius(celsius);
+                            });
+                          },
+                          child: Text(
+                            '°F',
+                            style: TextStyle(
+                              color:
+                                  celsius ? Colors.grey : Colors.yellowAccent,
+                              fontFamily: 'WDF',
+                              fontSize: 20,
+                            ),
+                          )),
+                      searchBox(),
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              celsius = !celsius;
+                              Provider.of<WeatherService>(context,
+                                      listen: false)
+                                  .setCelsius(celsius);
+                            });
+                          },
+                          child: Text(
+                            '°C',
+                            style: TextStyle(
+                              color:
+                                  celsius ? Colors.yellowAccent : Colors.grey,
+                              fontFamily: 'WDF',
+                              fontSize: 20,
+                            ),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Expanded(
+                    child: ListView(
+                      children: const [
+                        GeneralInfoWidget(),
+                        DetailsInfoWidget(),
+                        DailyInfoWidget(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -118,8 +131,10 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               MaterialPageRoute(builder: (context) => SearchCityScreen()),
             );
             if (result != null) {
-              Provider.of<WeatherService>(context, listen: false)
+              _isLoading = true;
+              await Provider.of<WeatherService>(context, listen: false)
                   .setCity(result);
+              _isLoading = false;
             }
           },
           label: const Text(

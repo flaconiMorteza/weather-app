@@ -67,16 +67,18 @@ class GeneralInfoWidget extends StatelessWidget {
                 ),
               ),
               weatherService.selectedIndex == 0
-                  ? Text(
-                      weatherService
-                              .weathers[weatherService.selectedIndex].the_temp!
-                              .toInt()
-                              .toString() +
-                          "°",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 45,
-                        fontFamily: 'PinyonScript',
+                  ? SafeArea(
+                      child: Text(
+                        weatherService.weathers[weatherService.selectedIndex]
+                                .the_temp!
+                                .toInt()
+                                .toString() +
+                            "°",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 45,
+                          fontFamily: 'PinyonScript',
+                        ),
                       ),
                     )
                   : Container(),
