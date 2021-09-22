@@ -7,6 +7,7 @@ import '../screens/search_city_screen.dart';
 import 'daily_info_widget.dart';
 import 'general_info_widget.dart';
 import 'details_info_widget.dart';
+import 'land_general_info_widget.dart';
 
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({Key? key}) : super(key: key);
@@ -34,7 +35,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   @override
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context, listen: false);
-    //final weatherData = weatherService.weatherData;
+    final deviceSize = MediaQuery.of(context).size;
+
+    var _vertical = deviceSize.height > deviceSize.width;
 
     return LoadingOverlay(
       isLoading: _isLoading,
@@ -105,14 +108,20 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 height: 5,
               ),
               Expanded(
-                child: ListView(
-                  children: const [
-                    GeneralInfoWidget(),
-                    DetailsInfoWidget(),
-                    DailyInfoWidget(),
-                  ],
-                ),
-              ),
+                  child: _vertical
+                      ? ListView(
+                          children: const [
+                            GeneralInfoWidget(),
+                            DetailsInfoWidget(),
+                            DailyInfoWidget(),
+                          ],
+                        )
+                      : ListView(
+                          children: [
+                            LandGeneralInfoWidget(),
+                            DailyInfoWidget()
+                          ],
+                        )),
             ],
           ),
         ),

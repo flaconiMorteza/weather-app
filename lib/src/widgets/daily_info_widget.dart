@@ -16,9 +16,14 @@ class DailyInfoWidget extends StatelessWidget {
       fontSize: 20,
       fontFamily: 'PinyonScript',
     );
+    var _isVertical = deviceSize.height > deviceSize.width;
+    double _height = 100;
+    _isVertical
+        ? _height = (deviceSize.height / 3.5)
+        : _height = (deviceSize.height / 1.7);
     return Container(
       margin: const EdgeInsets.all(10),
-      height: deviceSize.height / 3.5,
+      height: _height,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: weatherService.weathers.length,
@@ -34,7 +39,7 @@ class DailyInfoWidget extends StatelessWidget {
                 color: Color.fromRGBO(100, 110, 100, 200),
               ),
               margin: EdgeInsets.all(5),
-              width: deviceSize.height / 8,
+              width: _isVertical ? deviceSize.height / 8 : 110,
               child: Column(
                 children: [
                   TextButton(
