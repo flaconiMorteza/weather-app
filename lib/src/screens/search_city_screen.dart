@@ -5,6 +5,14 @@ import 'package:provider/provider.dart';
 import '../weather_provider/city_service.dart';
 import '../models/city_data.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This StatefulWidget is the screen of searching city name. Because of
+simplicity all needed widgets are embedded in this class. for the sake
+of supporting the vertical and horizontal, some extra conditions are
+ checked and some sizes are changed during the widget life cycle.
+******************************************************************/
+
 class SearchCityScreen extends StatefulWidget {
   const SearchCityScreen({Key? key}) : super(key: key);
   static const routeName = '/City';
@@ -41,6 +49,8 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
           ),
         )),
       ),
+      //By using LoadingOverlay, we can show the wait progress indicator
+      //over the screen. isLoading and child is required in this widget.
       body: LoadingOverlay(
         isLoading: _isLoading,
         opacity: 0.5,
@@ -67,6 +77,8 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                     hintStyle:
                         TextStyle(fontSize: 20.0, color: Colors.blueGrey),
                   ),
+                  //Over the 2 character every change in TextField fires the
+                  //new search and isLoading set to true until search was finished.
                   onChanged: (city) async {
                     if (city.length < 3) {
                       Provider.of<CityService>(context, listen: false)
@@ -81,12 +93,8 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                       await Provider.of<CityService>(context, listen: false)
                           .doNewsearch(city);
                     } catch (ex) {
-                      var snackBar = const SnackBar(
-                          content: Text(
-                        'Server connection problem. Please check your data!',
-                        textAlign: TextAlign.center,
-                      ));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      showSnackBar(context,
+                          'Server connection problem. Please check your data!');
                     }
                     setState(() {
                       _isLoading = false;
@@ -96,6 +104,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
               ),
               Center(
                 child: Container(
+                  //Here the width of the container is changed by the deviceSize.
                   width: deviceSize.width > 700
                       ? deviceSize.width * 3 / 4
                       : deviceSize.width - 5,
@@ -104,6 +113,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                         const ScrollPhysics(), // to disable GridView's scrolling
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //Here the count of city boxes are determine by device width
                       crossAxisCount: deviceSize.width > 700 ? 3 : 2,
                       childAspectRatio: 3 / 2,
                       crossAxisSpacing: 10,
@@ -114,6 +124,9 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return ChangeNotifierProvider.value(
                         value: cityService,
+                        //each fetched city is shown in cityItem
+                        //by loading the cities information in CityService
+                        //notifyListeners is called and city boxes are create here
                         child: cityItem(context, cities[index]),
                       );
                     },
@@ -140,9 +153,12 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
   }
 }
 
+//Each city is shown in a box. This boxes are cityItem.
 InkWell cityItem(BuildContext context, City city) {
   var _textStyle =
       const TextStyle(color: Colors.white, fontFamily: 'WDF', fontSize: 20);
+  //InkWell is used for enabling for onTap event. By tapping on a city
+  //city object is return to the weather widget to update the weather information
   return InkWell(
     child: Container(
       decoration: const BoxDecoration(
@@ -156,8 +172,10 @@ InkWell cityItem(BuildContext context, City city) {
       ),
     ),
     onTap: () async {
+      //Here by tapping navigation pop and city information is backed to the weather widget.
       Provider.of<CityService>(context, listen: false).resetCities();
       Navigator.pop(context, city);
+      //By pop we back to the WeatherWidget class
     },
   );
 }

@@ -9,6 +9,14 @@ import 'general_info_widget.dart';
 import 'details_info_widget.dart';
 import 'land_general_info_widget.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This is the main widget. MainScreen is the parent of this widget.
+there is a search box in this widget, by tapping on that, the navigator
+is pushed and CitySearchScreen are shown. The overal view of weather
+screen and device situation are decided here.
+******************************************************************/
+
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({Key? key}) : super(key: key);
 
@@ -53,6 +61,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             fit: BoxFit.fill,
           ),
         ),
+        //RefreshIndicator is used for refreshing the weather information
         child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.onEdge,
           onRefresh: () async {
@@ -68,6 +77,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  //This textButton allow us to toggle between C & F
                   TextButton(
                     onPressed: () {
                       setState(() {
@@ -85,7 +95,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                       ),
                     ),
                   ),
+                  //by this searchBox we can navigate to the city search screen
                   searchBox(),
+                  //This textButton allow us to toggle between C & F
                   TextButton(
                     onPressed: () {
                       setState(
@@ -111,6 +123,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 height: 5,
               ),
               Expanded(
+                //Here we check the veertical or horizontal state.
+                //In vertical mode, three widget are presented and
+                //in horizontal just two widget are shown.
                 child: _vertical
                     ? ListView(
                         children: const [
@@ -143,12 +158,16 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             size: 25,
           ),
           onPressed: () async {
+            //Here we navigate to the SearchCityScreen
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const SearchCityScreen(),
               ),
             );
+            //If the return object is null, then nothing was happened.
+            //If the city object backed from the search screen, setCity
+            //from WeatherService are called to update weather screen.
             if (result != null) {
               setState(() {
                 _isLoading = true;

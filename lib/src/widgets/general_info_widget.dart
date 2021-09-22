@@ -4,6 +4,12 @@ import 'package:provider/provider.dart';
 import '../helper/helper.dart';
 import '../weather_provider/weather_servie.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This main root of this widget is WeatherWidget. This widget is shown
+just in vertical position.
+******************************************************************/
+
 class GeneralInfoWidget extends StatelessWidget {
   const GeneralInfoWidget({Key? key}) : super(key: key);
 
@@ -32,6 +38,7 @@ class GeneralInfoWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //Selected city name are present here
                   SizedBox(
                     width: 110,
                     height: 60,
@@ -49,14 +56,21 @@ class GeneralInfoWidget extends StatelessWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    Helper.convertDate2Day(weatherService
-                        .weathers[weatherService.selectedIndex]
-                        .applicable_date),
-                    style: const TextStyle(
-                        fontFamily: 'PinyonScript',
-                        color: Colors.white,
-                        fontSize: 30),
+                  //Weather state name are present here
+                  SizedBox(
+                    width: 110,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        weatherService.weathers[weatherService.selectedIndex]
+                                .weather_state_name ??
+                            "unknown",
+                        style: const TextStyle(
+                            fontFamily: 'PinyonScript',
+                            color: Colors.white,
+                            fontSize: 30),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -73,6 +87,9 @@ class GeneralInfoWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              //Here the selected index is checked.
+              //The first item is current day so the current tempretur should show.
+              //In the other days, current tempretur is useless.
               weatherService.selectedIndex == 0
                   ? SizedBox(
                       width: 110,
@@ -105,6 +122,7 @@ class GeneralInfoWidget extends StatelessWidget {
                     Icons.arrow_upward_sharp,
                     color: Colors.white,
                   ),
+                  //Here the max temp is presented.
                   Text(
                     weatherService
                             .weathers[weatherService.selectedIndex].max_temp!
@@ -122,6 +140,7 @@ class GeneralInfoWidget extends StatelessWidget {
                     Icons.arrow_downward,
                     color: Colors.white,
                   ),
+                  //Here the min temp is presented.
                   Text(
                     weatherService
                             .weathers[weatherService.selectedIndex].min_temp!

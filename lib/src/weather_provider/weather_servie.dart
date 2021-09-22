@@ -8,6 +8,13 @@ import 'package:http/http.dart' as http;
 import '../models/city_data.dart';
 import '../models/weather_data.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This class provides the ability for fetching weather data. By calling
+notifyListeners, all listener update their data from class. Also
+WeatherService gets informations from remote server by http.
+******************************************************************/
+
 class WeatherService with ChangeNotifier {
   late Future<SharedPreferences> _prefs;
   WeatherService() {
@@ -22,6 +29,9 @@ class WeatherService with ChangeNotifier {
   bool _celsius = true;
   City _city = City(title: "Berlin", woeid: 638242);
 
+  //By http get method the weather information fetched from server
+  //In this project only consolidated_weather is needed and WeatherData
+  //is created and added to the private list in this function.
   Future<void> fetchAndSetWeather() async {
     try {
       int woeid = _city.woeid ?? 638242;
@@ -49,6 +59,8 @@ class WeatherService with ChangeNotifier {
     }
   }
 
+  //New city object pass to this class by this funtion.
+  //due to project requirements weather data is fetched immediately.
   Future<void> setCity(City city) async {
     _city = city;
     await fetchAndSetWeather();
@@ -71,11 +83,14 @@ class WeatherService with ChangeNotifier {
     }
   }
 
+  //This method toggle between celisus and fahrenheit
   void setCelsius(bool celsius) {
     _celsius = celsius;
     notifyListeners();
   }
 
+  //When weather data was fetched, by this function new list
+  //was generated for fahrenheit requests.
   convert2Farenhite() {
     final List<WeatherData> convertedWeather = [];
     _weatherData.forEach((data) {
@@ -88,6 +103,8 @@ class WeatherService with ChangeNotifier {
     _fWeatherData = convertedWeather;
   }
 
+  //At the start Time, this function was called for fetching the last
+  //city that user select to view weather conditions from SharedPreferences.
   loadCity() async {
     try {
       final SharedPreferences prefs = await _prefs;
@@ -103,6 +120,8 @@ class WeatherService with ChangeNotifier {
     } catch (ex) {}
   }
 
+  //When weather data was successfuly fetched by http get, this function
+  //called to save the city information in SharedPreferences.
   Future<void> saveCity() async {
     try {
       final SharedPreferences prefs = await _prefs;

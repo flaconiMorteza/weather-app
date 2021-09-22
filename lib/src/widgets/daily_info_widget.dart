@@ -4,6 +4,15 @@ import 'package:provider/provider.dart';
 import '../weather_provider/weather_servie.dart';
 import '../helper/helper.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This main root of this widget is WeatherWidget. for the sake
+of supporting the vertical and horizontal, some extra conditions are
+ checked and some sizes are changed during the widget life cycle.
+ This widget is the list of boxes that shows the overal weather condition
+ in the ongoing days.
+******************************************************************/
+
 class DailyInfoWidget extends StatelessWidget {
   const DailyInfoWidget({Key? key}) : super(key: key);
 
@@ -16,8 +25,11 @@ class DailyInfoWidget extends StatelessWidget {
       fontSize: 20,
       fontFamily: 'PinyonScript',
     );
+    //By this condition we determine the vertical state.
     var _isVertical = deviceSize.height > deviceSize.width;
     double _height = 100;
+    //Here the height of item Boxes are determin by the vertical
+    //situation and device height.
     _isVertical
         ? _height = (deviceSize.height / 3.5)
         : _height = (deviceSize.height / 1.7);
@@ -29,7 +41,8 @@ class DailyInfoWidget extends StatelessWidget {
         itemCount: weatherService.weathers.length,
         itemBuilder: (context, index) {
           return InkWell(
-            //onTap: weatherService.setSelectedIndex(index),
+            //Here the new item is selected and notify other listener
+            //to update weather information.
             onTap: () async {
               Provider.of<WeatherService>(context, listen: false)
                   .setSelectedIndex(index);

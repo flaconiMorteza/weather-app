@@ -1,5 +1,12 @@
 import 'package:intl/intl.dart';
 
+// ignore: slash_for_doc_comments
+/************************Morteza*********************************
+This class provide some helper method for converting date to day
+and day abbreviation. Also getPng method provide the right png
+for the given weather conditon.
+****************************************************************/
+
 class Helper {
   static String convertDate2Day(String? date) {
     try {

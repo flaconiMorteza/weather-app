@@ -7,6 +7,13 @@ import 'package:provider/provider.dart';
 import '../weather_provider/weather_servie.dart';
 import '../widgets/weather_widget.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This StatefulWidget is the main screen of the weather widget tree.
+For the first time, weather data was requested by this class.
+The CircularProgressIndicator is shown until data was fetched.
+******************************************************************/
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -21,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   var _isLoading = false;
   var _isError = false;
 
+  //Here weather data was asked.
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -32,6 +40,8 @@ class _MainScreenState extends State<MainScreen> {
     super.didChangeDependencies();
   }
 
+  //This function is called twice in this class, one by didChangeDependencies
+  //and one by ElevatedButton when fetching the data or data connection has some problems.
   void tryFetchWeatherData() {
     _isLoading = true;
     Provider.of<WeatherService>(context, listen: false)
@@ -69,6 +79,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+      //Here data loadign is checked for showing the data or alternative CircularProgressIndicator.
       body: _isLoading
           ? Container(
               decoration: const BoxDecoration(
@@ -81,6 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: CircularProgressIndicator(),
               ),
             )
+          //Here data error is checked for showing the data or alternative error text.
           : (_isError
               ? Container(
                   decoration: const BoxDecoration(
@@ -117,6 +129,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 )
               : const WeatherWidget()),
+      //This floatingActionButton is used for quitting the app
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(200, 50, 50, 200),
         foregroundColor: Colors.red,

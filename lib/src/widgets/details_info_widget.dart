@@ -4,6 +4,13 @@ import 'package:provider/provider.dart';
 import '../helper/helper.dart';
 import '../weather_provider/weather_servie.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This main root of this widget is WeatherWidget. This widget is shown
+just in vertical position. In this widget Date, humidity, pressure
+and wind are presented.
+******************************************************************/
+
 class DetailsInfoWidget extends StatelessWidget {
   const DetailsInfoWidget({Key? key}) : super(key: key);
 

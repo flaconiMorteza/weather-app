@@ -4,6 +4,16 @@ import 'package:provider/provider.dart';
 import '../helper/helper.dart';
 import '../weather_provider/weather_servie.dart';
 
+// ignore: slash_for_doc_comments
+/**************************Morteza*********************************
+This main root of this widget is WeatherWidget. This widget is shown
+just in horizontal position. All needed weather information for a day
+are shown in this widget. This widget's structure is similar to the
+GeneralInfoWidget.Just some needed informations are added to the end
+of the main column widget. I'm Sorry but lots of columns and rows are
+intertwined together. One day i will refactor this long widget!!!!
+******************************************************************/
+
 class LandGeneralInfoWidget extends StatelessWidget {
   const LandGeneralInfoWidget({Key? key}) : super(key: key);
 
@@ -50,9 +60,9 @@ class LandGeneralInfoWidget extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    Helper.convertDate2Day(weatherService
-                        .weathers[weatherService.selectedIndex]
-                        .applicable_date),
+                    weatherService.weathers[weatherService.selectedIndex]
+                            .weather_state_name ??
+                        "unknown",
                     style: const TextStyle(
                         fontFamily: 'PinyonScript',
                         color: Colors.white,
