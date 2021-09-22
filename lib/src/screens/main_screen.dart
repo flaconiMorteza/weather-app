@@ -60,13 +60,14 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(
-            child: Text(
-          'flaconi Weather App',
-          style: TextStyle(
-            fontFamily: 'PinyonScript',
-            fontSize: 25,
+          child: Text(
+            'flaconi Weather App',
+            style: TextStyle(
+              fontFamily: 'PinyonScript',
+              fontSize: 25,
+            ),
           ),
-        )),
+        ),
       ),
       body: _isLoading
           ? Container(
@@ -98,20 +99,32 @@ class _MainScreenState extends State<MainScreen> {
                           style: _textStyle,
                         ),
                         ElevatedButton(
-                            onPressed: () async {
-                              setState(() {
+                          onPressed: () async {
+                            setState(
+                              () {
                                 tryFetchWeatherData();
-                              });
-                            },
-                            child: const Text("Try again", style: _textStyle)),
+                              },
+                            );
+                          },
+                          child: const Text("Try again", style: _textStyle),
+                        ),
                         ElevatedButton(
-                            onPressed: () => exit(0),
-                            child: const Text("Exit App", style: _textStyle)),
+                          onPressed: () => exit(0),
+                          child: const Text("Exit App", style: _textStyle),
+                        ),
                       ],
                     ),
                   ),
                 )
               : WeatherWidget()),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(200, 50, 50, 200),
+        foregroundColor: Colors.red,
+        child: const Icon(Icons.exit_to_app),
+        onPressed: () async {
+          exit(0);
+        },
+      ),
     );
   }
 }

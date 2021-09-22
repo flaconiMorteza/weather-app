@@ -30,7 +30,7 @@ class WeatherService with ChangeNotifier {
       final response = await http.get(
           uri /*, headers: {
         "Accept": "application/json",
-        "Access-Control_Allow_Origin": "*"
+        "Access-Control-Allow-Origin": "*"
       }*/
           );
 
