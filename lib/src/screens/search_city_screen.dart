@@ -6,7 +6,7 @@ import '../weather_provider/city_service.dart';
 import '../models/city_data.dart';
 
 class SearchCityScreen extends StatefulWidget {
-  SearchCityScreen({Key? key}) : super(key: key);
+  const SearchCityScreen({Key? key}) : super(key: key);
   static const routeName = '/City';
 
   @override
@@ -95,15 +95,13 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                 ),
               ),
               Center(
-                child: /*_isLoading
-                    ? CircularProgressIndicator()
-                    : */
-                    Container(
+                child: Container(
                   width: deviceSize.width > 700
                       ? deviceSize.width * 3 / 4
                       : deviceSize.width - 5,
                   child: GridView.builder(
-                    physics: ScrollPhysics(), // to disable GridView's scrolling
+                    physics:
+                        const ScrollPhysics(), // to disable GridView's scrolling
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: deviceSize.width > 700 ? 3 : 2,
@@ -136,7 +134,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
     );
   }
 
-  void _showSnackBar(BuildContext context, String message) {
+  void showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

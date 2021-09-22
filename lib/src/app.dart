@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './screens/main_screen.dart';
 
-/// The Widget that configures your application.
+/// The Widget that configures application.
 class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context) {
             switch (routeSettings.name) {
               case SearchCityScreen.routeName:
-                return SearchCityScreen();
+                return const SearchCityScreen();
               case MainScreen.routeName:
               default:
                 return const MainScreen();

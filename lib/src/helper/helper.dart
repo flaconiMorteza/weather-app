@@ -9,7 +9,7 @@ class Helper {
     return "Err";
   }
 
-  static String GetPng(String? weatherState) {
+  static String getPng(String? weatherState) {
     return "assets/images/png64/$weatherState.png";
   }
 

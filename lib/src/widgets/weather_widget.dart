@@ -26,11 +26,13 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   }
 
   var snackBar = const SnackBar(
-      content: Center(
-          child: Text(
-    'Server connection problem. Please check your data!',
-    textAlign: TextAlign.center,
-  )));
+    content: Center(
+      child: Text(
+        'Server connection problem. Please check your internet connection!',
+        textAlign: TextAlign.center,
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -60,68 +62,70 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
           },
-          child: /*_isLoading
-              ? CircularProgressIndicator()
-              : */
-              Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                      onPressed: () {
-                        setState(() {
-                          celsius = !celsius;
-                          Provider.of<WeatherService>(context, listen: false)
-                              .setCelsius(celsius);
-                        });
-                      },
-                      child: Text(
-                        '°F',
-                        style: TextStyle(
-                          color: celsius ? Colors.grey : Colors.yellowAccent,
-                          fontFamily: 'WDF',
-                          fontSize: 20,
-                        ),
-                      )),
+                    onPressed: () {
+                      setState(() {
+                        celsius = !celsius;
+                        Provider.of<WeatherService>(context, listen: false)
+                            .setCelsius(celsius);
+                      });
+                    },
+                    child: Text(
+                      '°F',
+                      style: TextStyle(
+                        color: celsius ? Colors.grey : Colors.yellowAccent,
+                        fontFamily: 'WDF',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   searchBox(),
                   TextButton(
-                      onPressed: () {
-                        setState(() {
+                    onPressed: () {
+                      setState(
+                        () {
                           celsius = !celsius;
                           Provider.of<WeatherService>(context, listen: false)
                               .setCelsius(celsius);
-                        });
-                      },
-                      child: Text(
-                        '°C',
-                        style: TextStyle(
-                          color: celsius ? Colors.yellowAccent : Colors.grey,
-                          fontFamily: 'WDF',
-                          fontSize: 20,
-                        ),
-                      )),
+                        },
+                      );
+                    },
+                    child: Text(
+                      '°C',
+                      style: TextStyle(
+                        color: celsius ? Colors.yellowAccent : Colors.grey,
+                        fontFamily: 'WDF',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
                 height: 5,
               ),
               Expanded(
-                  child: _vertical
-                      ? ListView(
-                          children: const [
-                            GeneralInfoWidget(),
-                            DetailsInfoWidget(),
-                            DailyInfoWidget(),
-                          ],
-                        )
-                      : ListView(
-                          children: [
-                            LandGeneralInfoWidget(),
-                            DailyInfoWidget()
-                          ],
-                        )),
+                child: _vertical
+                    ? ListView(
+                        children: const [
+                          GeneralInfoWidget(),
+                          DetailsInfoWidget(),
+                          DailyInfoWidget(),
+                        ],
+                      )
+                    : ListView(
+                        children: const [
+                          LandGeneralInfoWidget(),
+                          DailyInfoWidget()
+                        ],
+                      ),
+              ),
             ],
           ),
         ),
@@ -141,7 +145,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           onPressed: () async {
             final result = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SearchCityScreen()),
+              MaterialPageRoute(
+                builder: (context) => const SearchCityScreen(),
+              ),
             );
             if (result != null) {
               setState(() {

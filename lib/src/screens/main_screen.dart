@@ -116,7 +116,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 )
-              : WeatherWidget()),
+              : const WeatherWidget()),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(200, 50, 50, 200),
         foregroundColor: Colors.red,

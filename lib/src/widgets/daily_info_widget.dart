@@ -38,7 +38,7 @@ class DailyInfoWidget extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Color.fromRGBO(100, 110, 100, 200),
               ),
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               width: _isVertical ? deviceSize.height / 8 : 110,
               child: Column(
                 children: [
@@ -50,9 +50,9 @@ class DailyInfoWidget extends StatelessWidget {
                       style: _textStyle,
                     ),
                   ),
-                  Image.asset(Helper.GetPng(
+                  Image.asset(Helper.getPng(
                       weatherService.weathers[index].weather_state_name)),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Column(

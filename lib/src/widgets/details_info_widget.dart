@@ -1,7 +1,7 @@
-import 'package:esi_weather_app/src/helper/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../helper/helper.dart';
 import '../weather_provider/weather_servie.dart';
 
 class DetailsInfoWidget extends StatelessWidget {

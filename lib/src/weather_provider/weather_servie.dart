@@ -27,12 +27,7 @@ class WeatherService with ChangeNotifier {
       int woeid = _city.woeid ?? 638242;
       String url = 'https://www.metaweather.com/api/location/$woeid/';
       Uri uri = Uri.parse(url);
-      final response = await http.get(
-          uri /*, headers: {
-        "Accept": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }*/
-          );
+      final response = await http.get(uri);
 
       if (response.statusCode != 200) {
       } else {

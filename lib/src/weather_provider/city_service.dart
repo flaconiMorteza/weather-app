@@ -14,12 +14,7 @@ class CityService with ChangeNotifier {
         'https://www.metaweather.com/api/location/search/?query=$cityName';
     Uri uri = Uri.parse(url);
     try {
-      final response = await http.get(
-        uri, /*headers: {
-        "Accept": "application/json",
-        "Access-Control_Allow_Origin": "*"
-      }*/
-      );
+      final response = await http.get(uri);
 
       if (response.statusCode != 200) {
       } else {

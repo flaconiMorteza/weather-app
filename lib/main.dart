@@ -10,5 +10,5 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => WeatherService()),
     ChangeNotifierProvider(create: (_) => CityService()),
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }

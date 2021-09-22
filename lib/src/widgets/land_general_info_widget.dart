@@ -1,7 +1,7 @@
-import 'package:esi_weather_app/src/helper/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../helper/helper.dart';
 import '../weather_provider/weather_servie.dart';
 
 class LandGeneralInfoWidget extends StatelessWidget {
@@ -66,7 +66,7 @@ class LandGeneralInfoWidget extends StatelessWidget {
                 width: deviceSize.height / 8,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(Helper.GetPng(weatherService
+                    image: AssetImage(Helper.getPng(weatherService
                         .weathers[weatherService.selectedIndex]
                         .weather_state_name)),
                     fit: BoxFit.fill,
