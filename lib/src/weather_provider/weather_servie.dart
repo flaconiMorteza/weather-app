@@ -2,12 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/city_data.dart';
 import '../models/weather_data.dart';
 
 class WeatherService with ChangeNotifier {
+  late Future<SharedPreferences> _prefs;
+  WeatherService() {
+    _prefs = SharedPreferences.getInstance();
+    loadCity();
+  }
+
   List<WeatherData> _weatherData = [];
   List<WeatherData> _fWeatherData = [];
 
@@ -37,6 +44,7 @@ class WeatherService with ChangeNotifier {
           loadedWeather.add(WeatherData.fromMap(prodData));
         });
         _weatherData = loadedWeather;
+        await saveCity();
         convert2Farenhite();
       }
     } catch (ex) {
@@ -83,5 +91,28 @@ class WeatherService with ChangeNotifier {
       ));
     });
     _fWeatherData = convertedWeather;
+  }
+
+  loadCity() async {
+    try {
+      final SharedPreferences prefs = await _prefs;
+      String? strCity = prefs.getString('cityObj');
+      if (strCity != null) {
+        final extractedData = json.decode(strCity);
+
+        _city = City(
+          title: extractedData['title'],
+          woeid: extractedData['woeid'],
+        );
+      }
+    } catch (ex) {}
+  }
+
+  Future<void> saveCity() async {
+    try {
+      final SharedPreferences prefs = await _prefs;
+      String strCity = _city.toJson();
+      await prefs.setString('cityObj', strCity);
+    } catch (ex) {}
   }
 }

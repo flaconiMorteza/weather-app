@@ -18,6 +18,7 @@ dependencies:
   intl: ^0.17.0
   http:
   loading_overlay: ^0.3.0
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:
