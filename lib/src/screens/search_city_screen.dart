@@ -41,81 +41,89 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
           ),
         )),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/BK_City.jpg"),
-            fit: BoxFit.fill,
-          ),
+      body: LoadingOverlay(
+        isLoading: _isLoading,
+        opacity: 0.5,
+        progressIndicator: const CircularProgressIndicator(
+          color: Colors.amber,
         ),
-        child: ListView(
-          children: [
-            Container(
-              margin:
-                  const EdgeInsets.only(top: 5, bottom: 5, right: 25, left: 25),
-              child: TextField(
-                textAlign: TextAlign.center,
-                style: _textStyle,
-                decoration: const InputDecoration(
-                  hintText: 'Type the city name.',
-                  hintStyle: TextStyle(fontSize: 20.0, color: Colors.blueGrey),
-                ),
-                onChanged: (city) async {
-                  if (city.length < 3) {
-                    Provider.of<CityService>(context, listen: false)
-                        .resetCities();
-                    return;
-                  }
-                  setState(() {
-                    _isLoading = true;
-                  });
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/BK_City.jpg"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: ListView(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                    top: 5, bottom: 5, right: 25, left: 25),
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  style: _textStyle,
+                  decoration: const InputDecoration(
+                    hintText: 'Type the city name.',
+                    hintStyle:
+                        TextStyle(fontSize: 20.0, color: Colors.blueGrey),
+                  ),
+                  onChanged: (city) async {
+                    if (city.length < 3) {
+                      Provider.of<CityService>(context, listen: false)
+                          .resetCities();
+                      return;
+                    }
+                    setState(() {
+                      _isLoading = true;
+                    });
 
-                  try {
-                    await Provider.of<CityService>(context, listen: false)
-                        .doNewsearch(city);
-                  } catch (ex) {
-                    var snackBar = const SnackBar(
-                        content: Text(
-                      'Server connection problem. Please check your data!',
-                      textAlign: TextAlign.center,
-                    ));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  setState(() {
-                    _isLoading = false;
-                  });
-                },
+                    try {
+                      await Provider.of<CityService>(context, listen: false)
+                          .doNewsearch(city);
+                    } catch (ex) {
+                      var snackBar = const SnackBar(
+                          content: Text(
+                        'Server connection problem. Please check your data!',
+                        textAlign: TextAlign.center,
+                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+                ),
               ),
-            ),
-            Center(
-              child: _isLoading
-                  ? CircularProgressIndicator()
-                  : Container(
-                      width: deviceSize.width > 700
-                          ? deviceSize.width * 3 / 4
-                          : deviceSize.width - 5,
-                      child: GridView.builder(
-                        physics:
-                            ScrollPhysics(), // to disable GridView's scrolling
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: deviceSize.width > 700 ? 3 : 2,
-                          childAspectRatio: 3 / 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        padding: const EdgeInsets.all(10.0),
-                        itemCount: cities.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ChangeNotifierProvider.value(
-                            value: cityService,
-                            child: cityItem(context, cities[index]),
-                          );
-                        },
-                      ),
+              Center(
+                child: /*_isLoading
+                    ? CircularProgressIndicator()
+                    : */
+                    Container(
+                  width: deviceSize.width > 700
+                      ? deviceSize.width * 3 / 4
+                      : deviceSize.width - 5,
+                  child: GridView.builder(
+                    physics: ScrollPhysics(), // to disable GridView's scrolling
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: deviceSize.width > 700 ? 3 : 2,
+                      childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
-            ),
-          ],
+                    padding: const EdgeInsets.all(10.0),
+                    itemCount: cities.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ChangeNotifierProvider.value(
+                        value: cityService,
+                        child: cityItem(context, cities[index]),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

@@ -32,12 +32,19 @@ class GeneralInfoWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    weatherService.city.title ?? "Null",
-                    style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 30,
-                        fontFamily: 'PinyonScript'),
+                  SizedBox(
+                    width: 110,
+                    height: 60,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        weatherService.city.title ?? "Null",
+                        style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 30,
+                            fontFamily: 'PinyonScript'),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 5,
@@ -67,17 +74,21 @@ class GeneralInfoWidget extends StatelessWidget {
                 ),
               ),
               weatherService.selectedIndex == 0
-                  ? SafeArea(
-                      child: Text(
-                        weatherService.weathers[weatherService.selectedIndex]
-                                .the_temp!
-                                .toInt()
-                                .toString() +
-                            "°",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 45,
-                          fontFamily: 'PinyonScript',
+                  ? SizedBox(
+                      width: 110,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          weatherService.weathers[weatherService.selectedIndex]
+                                  .the_temp!
+                                  .toInt()
+                                  .toString() +
+                              "°",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 45,
+                            fontFamily: 'PinyonScript',
+                          ),
                         ),
                       ),
                     )

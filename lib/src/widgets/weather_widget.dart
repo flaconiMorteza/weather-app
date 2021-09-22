@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../weather_provider/weather_servie.dart';
+import '../screens/search_city_screen.dart';
 import 'daily_info_widget.dart';
 import 'general_info_widget.dart';
 import 'details_info_widget.dart';
-import '../screens/search_city_screen.dart';
 
 class WeatherWidget extends StatefulWidget {
   const WeatherWidget({Key? key}) : super(key: key);
@@ -24,94 +24,98 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     super.initState();
   }
 
+  var snackBar = const SnackBar(
+      content: Center(
+          child: Text(
+    'Server connection problem. Please check your data!',
+    textAlign: TextAlign.center,
+  )));
+
   @override
   Widget build(BuildContext context) {
     final weatherService = Provider.of<WeatherService>(context, listen: false);
     //final weatherData = weatherService.weatherData;
 
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/BK_Image.jpg"),
-          fit: BoxFit.fill,
-        ),
+    return LoadingOverlay(
+      isLoading: _isLoading,
+      progressIndicator: const CircularProgressIndicator(
+        color: Colors.amber,
       ),
-      child: RefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.onEdge,
-        onRefresh: () async {
-          try {
-            return await weatherService.fetchAndSetWeather();
-          } catch (ex) {
-            var snackBar = const SnackBar(
-                content: Center(
-                    child: Text(
-              'Server connection problem. Please check your data!',
-              textAlign: TextAlign.center,
-            )));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-        },
-        child: _isLoading
-            ? CircularProgressIndicator()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/BK_Image.jpg"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: RefreshIndicator(
+          triggerMode: RefreshIndicatorTriggerMode.onEdge,
+          onRefresh: () async {
+            try {
+              return await weatherService.fetchAndSetWeather();
+            } catch (ex) {
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          },
+          child: /*_isLoading
+              ? CircularProgressIndicator()
+              : */
+              Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              celsius = !celsius;
-                              Provider.of<WeatherService>(context,
-                                      listen: false)
-                                  .setCelsius(celsius);
-                            });
-                          },
-                          child: Text(
-                            '°F',
-                            style: TextStyle(
-                              color:
-                                  celsius ? Colors.grey : Colors.yellowAccent,
-                              fontFamily: 'WDF',
-                              fontSize: 20,
-                            ),
-                          )),
-                      searchBox(),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              celsius = !celsius;
-                              Provider.of<WeatherService>(context,
-                                      listen: false)
-                                  .setCelsius(celsius);
-                            });
-                          },
-                          child: Text(
-                            '°C',
-                            style: TextStyle(
-                              color:
-                                  celsius ? Colors.yellowAccent : Colors.grey,
-                              fontFamily: 'WDF',
-                              fontSize: 20,
-                            ),
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: ListView(
-                      children: const [
-                        GeneralInfoWidget(),
-                        DetailsInfoWidget(),
-                        DailyInfoWidget(),
-                      ],
-                    ),
-                  ),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          celsius = !celsius;
+                          Provider.of<WeatherService>(context, listen: false)
+                              .setCelsius(celsius);
+                        });
+                      },
+                      child: Text(
+                        '°F',
+                        style: TextStyle(
+                          color: celsius ? Colors.grey : Colors.yellowAccent,
+                          fontFamily: 'WDF',
+                          fontSize: 20,
+                        ),
+                      )),
+                  searchBox(),
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          celsius = !celsius;
+                          Provider.of<WeatherService>(context, listen: false)
+                              .setCelsius(celsius);
+                        });
+                      },
+                      child: Text(
+                        '°C',
+                        style: TextStyle(
+                          color: celsius ? Colors.yellowAccent : Colors.grey,
+                          fontFamily: 'WDF',
+                          fontSize: 20,
+                        ),
+                      )),
                 ],
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              Expanded(
+                child: ListView(
+                  children: const [
+                    GeneralInfoWidget(),
+                    DetailsInfoWidget(),
+                    DailyInfoWidget(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -131,10 +135,18 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               MaterialPageRoute(builder: (context) => SearchCityScreen()),
             );
             if (result != null) {
-              _isLoading = true;
-              await Provider.of<WeatherService>(context, listen: false)
-                  .setCity(result);
-              _isLoading = false;
+              setState(() {
+                _isLoading = true;
+              });
+              try {
+                await Provider.of<WeatherService>(context, listen: false)
+                    .setCity(result);
+              } catch (ex) {
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              setState(() {
+                _isLoading = false;
+              });
             }
           },
           label: const Text(
