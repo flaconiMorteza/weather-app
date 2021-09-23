@@ -98,7 +98,7 @@ class GeneralInfoWidget extends StatelessWidget {
                         child: Text(
                           weatherService.weathers[weatherService.selectedIndex]
                                   .the_temp!
-                                  .toInt()
+                                  .round()
                                   .toString() +
                               "°",
                           style: const TextStyle(
@@ -126,7 +126,7 @@ class GeneralInfoWidget extends StatelessWidget {
                   Text(
                     weatherService
                             .weathers[weatherService.selectedIndex].max_temp!
-                            .toInt()
+                            .round()
                             .toString() +
                         "°",
                     style: _textStyle,
@@ -144,7 +144,7 @@ class GeneralInfoWidget extends StatelessWidget {
                   Text(
                     weatherService
                             .weathers[weatherService.selectedIndex].min_temp!
-                            .toInt()
+                            .round()
                             .toString() +
                         "°",
                     style: _textStyle,

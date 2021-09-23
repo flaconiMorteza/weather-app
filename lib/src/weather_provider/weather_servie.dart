@@ -95,9 +95,9 @@ class WeatherService with ChangeNotifier {
     final List<WeatherData> convertedWeather = [];
     _weatherData.forEach((data) {
       convertedWeather.add(data.copyWith(
-        max_temp: data.max_temp! * 9.5 + 32,
-        min_temp: data.min_temp! * 9.5 + 32,
-        the_temp: data.the_temp! * 9.5 + 32,
+        max_temp: data.max_temp! * 9 / 5 + 32,
+        min_temp: data.min_temp! * 9 / 5 + 32,
+        the_temp: data.the_temp! * 9 / 5 + 32,
       ));
     });
     _fWeatherData = convertedWeather;
@@ -129,8 +129,8 @@ class WeatherService with ChangeNotifier {
       await prefs.setString('cityObj', strCity);
     } catch (ex) {}
   }
-  /* =========>Important: This part of code are developed just for testing<=========== */
 
+  /* =========>Important: This part of code are developed just for testing<=========== */
   void testSetCity(City city) {
     _city = city;
   }

@@ -51,4 +51,10 @@ class CityService with ChangeNotifier {
     _cities.clear();
     notifyListeners();
   }
+
+  /* =========>Important: This part of code are developed just for testing<=========== */
+  void testAddCity(City city) {
+    _cities.add(city);
+    notifyListeners();
+  }
 }

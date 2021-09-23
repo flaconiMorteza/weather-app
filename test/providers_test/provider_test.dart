@@ -1,14 +1,12 @@
 import 'package:esi_weather_app/src/models/city_data.dart';
+import 'package:esi_weather_app/src/models/weather_data.dart';
+import 'package:esi_weather_app/src/weather_provider/city_service.dart';
 import 'package:esi_weather_app/src/weather_provider/weather_servie.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:esi_weather_app/src/models/weather_data.dart';
-import 'package:esi_weather_app/src/widgets/general_info_widget.dart';
-import 'package:provider/provider.dart';
-
 void main() {
-  test('weatherWidgetTest', () {
+  test('Weather Provider Test', () {
     // Arrange
     WeatherService _weatherService = WeatherService();
 
@@ -38,5 +36,29 @@ void main() {
     _weatherService.testSetCity(_city1);
 
     expect(_weatherService.weathers.length, 5);
+
+    _weatherService.convert2Farenhite();
+    _weatherService.setCelsius(false);
+    expect(_weatherService.weathers[0].the_temp, 20.34 * 9 / 5 + 32);
+
+    _weatherService.setCelsius(true);
+    expect(_weatherService.weathers[0].the_temp, 20.34);
+  });
+
+  test('City Provider Test', () {
+    // Arrange
+    CityService _cityService = CityService();
+    City _city1 = City(title: 'Berlin', woeid: 638242);
+
+    _cityService.testAddCity(_city1);
+    _cityService.testAddCity(_city1);
+    _cityService.testAddCity(_city1);
+    _cityService.testAddCity(_city1);
+
+    expect(_cityService.cities.length, 4);
+
+    _cityService.resetCities();
+
+    expect(_cityService.cities.length, 0);
   });
 }

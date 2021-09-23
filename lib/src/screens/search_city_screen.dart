@@ -149,6 +149,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
 
   void showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

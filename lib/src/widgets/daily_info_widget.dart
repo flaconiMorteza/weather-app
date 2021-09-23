@@ -80,7 +80,7 @@ class DailyInfoWidget extends StatelessWidget {
                           ),
                           Text(
                             weatherService.weathers[index].max_temp!
-                                .toInt()
+                                .round()
                                 .toString(),
                             style: _textStyle,
                           ),
@@ -96,7 +96,7 @@ class DailyInfoWidget extends StatelessWidget {
                           ),
                           Text(
                             weatherService.weathers[index].min_temp!
-                                .toInt()
+                                .round()
                                 .toString(),
                             style: _textStyle,
                           ),
