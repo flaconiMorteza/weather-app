@@ -129,4 +129,13 @@ class WeatherService with ChangeNotifier {
       await prefs.setString('cityObj', strCity);
     } catch (ex) {}
   }
+  /* =========>Important: This part of code are developed just for testing<=========== */
+
+  void testSetCity(City city) {
+    _city = city;
+  }
+
+  void testAddWeather(WeatherData weatherData) {
+    _weatherData.add(weatherData);
+  }
 }
