@@ -133,6 +133,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(200, 50, 50, 200),
         foregroundColor: Colors.red,
+        key: const ValueKey('button.Exit'),
         child: const Icon(Icons.exit_to_app),
         onPressed: () async {
           exit(0);

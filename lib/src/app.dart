@@ -1,6 +1,7 @@
+import 'package:esi_weather_app/main.dart';
 import 'package:esi_weather_app/src/screens/search_city_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './screens/main_screen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
-      localizationsDelegates: const [
+      /*    localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''), // English, no country code
       ],
       onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appTitle,
+          AppLocalizations.of(context)!.appTitle,*/
       theme: ThemeData(), // _theme,
       darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {

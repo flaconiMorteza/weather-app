@@ -157,6 +157,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             color: Colors.white,
             size: 25,
           ),
+          key: const ValueKey('button.search'),
           onPressed: () async {
             //Here we navigate to the SearchCityScreen
             final result = await Navigator.push(

@@ -70,6 +70,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                 margin: const EdgeInsets.only(
                     top: 5, bottom: 5, right: 25, left: 25),
                 child: TextField(
+                  key: const ValueKey('text.search'),
                   textAlign: TextAlign.center,
                   style: _textStyle,
                   decoration: const InputDecoration(
@@ -139,6 +140,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.arrow_back),
+        key: const ValueKey('button.back'),
         onPressed: () async {
           Provider.of<CityService>(context, listen: false).resetCities();
           Navigator.pop(context);
